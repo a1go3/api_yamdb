@@ -36,7 +36,7 @@ class Titles(models.Model):
     name = models.CharField(max_length=255,
                             verbose_name='Название произведения')
     year = models.IntegerField(verbose_name='Год выпуска')
-    description = models.TextField(verbose_name='Описание')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание')
     category = models.ForeignKey(
         Category, blank=True, null=True, on_delete=models.SET_NULL,
         related_name='categories', verbose_name='Категория')
@@ -63,7 +63,8 @@ class Review(models.Model):
 
 
 class Comments(models.Model):
-    review = models.ForeignKey(Review, on_delete=models.CASCADE,
+    review = models.ForeignKey(Review, unique=False,
+                               on_delete=models.CASCADE,
                                related_name='comments',
                                verbose_name='Комментарий к отзыву')
     text = models.TextField(max_length=1000, verbose_name='Текст комментария')
